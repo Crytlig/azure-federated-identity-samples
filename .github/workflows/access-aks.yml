@@ -1,5 +1,8 @@
 name: Access AKS cluster
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   
 permissions:
@@ -24,7 +27,7 @@ jobs:
 
     - name: Install brew
       run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      
+
     - name: Get kubelogin
       run: brew install Azure/kubelogin/kubelogin
         
