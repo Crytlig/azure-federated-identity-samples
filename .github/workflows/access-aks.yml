@@ -4,6 +4,7 @@ on:
   
 permissions:
   id-token: write
+  contents: read
 
 jobs:
   job:
@@ -21,6 +22,9 @@ jobs:
     - name: Get kubeconfig
       run: az aks get-credentials -g ${{ secrets.RESOURCE_GROUP_NAME }} -n ${{ secrets.AKS_NAME }}
 
+    - name: Install brew
+      run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      
     - name: Get kubelogin
       run: brew install Azure/kubelogin/kubelogin
         
