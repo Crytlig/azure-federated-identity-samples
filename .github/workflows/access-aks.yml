@@ -25,11 +25,12 @@ jobs:
     - name: Get kubeconfig
       run: az aks get-credentials -g ${{ secrets.RESOURCE_GROUP_NAME }} -n ${{ secrets.AKS_NAME }}
 
-    - name: Install brew
-      run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
     - name: Get kubelogin
-      run: brew install Azure/kubelogin/kubelogin
+      run: |
+        curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.20/kubelogin-linux-amd64.zip
+        unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
+        rm -f kubelogin-linux-amd64.zip
+        kubelogin --version
         
     - name: Convert kubeconfig
       run: kubelogin convert-kubeconfig -l workloadidentity
