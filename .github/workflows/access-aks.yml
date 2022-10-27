@@ -20,7 +20,7 @@ jobs:
         
     - name: Get kubeconfig
       run: az aks get-credentials -g ${{ secrets.RESOURCE_GROUP_NAME }} -n ${{ secrets.AKS_NAME }}
-        
+
     - name: Get kubelogin
       run: brew install Azure/kubelogin/kubelogin
         
@@ -41,11 +41,11 @@ jobs:
         echo "::set-output name=idToken::${IDTOKEN}"
       
     - name: Run kubectl
+      run: |
+        export AZURE_FEDERATED_TOKEN_FILE=${RUNNER_TEMP}/.token
+        kubectl get nodes
       env:
         AZURE_AUTHORITY_HOST: https://login.microsoftonline.com/
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      run: |
-        export AZURE_FEDERATED_TOKEN_FILE=${RUNNER_TEMP}/.token
-        kubectl get nodes
-      
+        
